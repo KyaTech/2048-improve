@@ -4,7 +4,6 @@ public class Tile {
 	
 	private static final int TILE_SIZE = 64;
 	private static final int TILES_MARGIN = 16;
-	private static final int TILES_ROUND = 3;
 
 	
 	private static int offsetCoors(int d) {
@@ -82,18 +81,29 @@ public class Tile {
 	public int getX() {
 		return offsetCoors(this.x);	
 	}
+	
 	public void setX(int x) {
 		this.x = x;	
 	}
+	
 	public int getY() {
 		return offsetCoors(this.y);		
 	}
+	
 	public void setY(int y) {
 		this.y = y;
 	}
 	
+	public int getXGrid() {
+		return this.x;
+	}
+	
+	public int getYGrid() {
+		return this.y;
+	}
+	
 	public int getSize() {
-		return size;
+		return TILE_SIZE;
 	}
 	
 	public void setSize(int size) {

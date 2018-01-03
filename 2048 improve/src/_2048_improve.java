@@ -8,19 +8,18 @@ public class _2048_improve {
 
 	public static void main(String[] args) {
 		
-		Frame f = new Frame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setLocationRelativeTo(null);
-		f.setSize(800, 600);
-		f.setResizable(false);
-		
-		f.setVisible(true);
-		
 		//INIT
+		
+		Game game = new Game();
+		
+		Frame f = new Frame(game);
+
 		
 		long lastFrameMillis = System.currentTimeMillis();
 		
 		while(true) {
+			
+			//UPDATE
 			
 			long currentFrameMillis = System.currentTimeMillis();
 			
@@ -28,16 +27,7 @@ public class _2048_improve {
 			
 			lastFrameMillis = currentFrameMillis;
 			
-			if(Keyboard.isKeyDown(KeyEvent.VK_W) || Keyboard.isKeyDown(KeyEvent.VK_UP))
-				f.posy -= 500*timeSinceLastFrame;
-			if(Keyboard.isKeyDown(KeyEvent.VK_S) || Keyboard.isKeyDown(KeyEvent.VK_DOWN))
-				f.posy += 500*timeSinceLastFrame;
-			if(Keyboard.isKeyDown(KeyEvent.VK_D) || Keyboard.isKeyDown(KeyEvent.VK_RIGHT))
-				f.posx += 500*timeSinceLastFrame;
-			if(Keyboard.isKeyDown(KeyEvent.VK_A) || Keyboard.isKeyDown(KeyEvent.VK_LEFT))
-				f.posx -= 500*timeSinceLastFrame;			
-			
-			
+			game.update();
 			
 			f.repaintFrame();
 			
