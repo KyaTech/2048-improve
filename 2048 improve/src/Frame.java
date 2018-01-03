@@ -26,7 +26,7 @@ public class Frame extends JFrame {
 		addKeyListener(new Keyboard());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(340, 420);
+		setSize(340, 440);
 		
 		Screen sc = new Screen();
 		
@@ -68,6 +68,82 @@ public class Frame extends JFrame {
 		    	}
 		    	
 		    }
+		    
+			int highscore = game.getHighscore();
+			
+			
+		    
+		    final int xRRect1 = Tile.getSMargin();
+		    final int yRRect1 = Tile.offsetCoors(game.getWidth());
+		    final int wRRect1 = (Tile.getSSize()*2 + Tile.getSMargin());
+		    final int hRRect1 = Tile.getSSize();
+		    
+		    
+		    g2d.setColor(Tile.getColor(0));
+		    g2d.fillRoundRect(xRRect1, yRRect1, wRRect1, hRRect1, 7, 7);
+		    
+		    g2d.setColor(new Color(0x776e65));
+		    
+		    final int RRect1Margin = Tile.getSMargin() / 4;
+		    
+		    final Font font = new Font(FONT_NAME, Font.BOLD, 20);
+		    g2d.setFont(font);
+		    
+		    String strHeader1 = "Highscore:";
+		    final FontMetrics fm = getFontMetrics(font);
+
+		    
+		    
+		    final int xSHRRect1 = xRRect1 + RRect1Margin;
+		    final int ySHRRect1 = yRRect1 + ((hRRect1 - 3*RRect1Margin)/ 2);
+		    final int wSHRRect1 = fm.stringWidth(strHeader1);
+		    final int hSHRRect1 = -(int) fm.getLineMetrics(strHeader1, g2d).getBaselineOffsets()[2];
+		    
+	    	g2d.drawString(strHeader1, xSHRRect1, ySHRRect1);
+	    	
+		    String strScore1 = String.valueOf(highscore);
+	    	
+	    	final int xSVRRect1 = xRRect1 + RRect1Margin;
+		    final int ySVRRect1 = yRRect1 + hRRect1 - (3*RRect1Margin);
+		    
+		    g2d.drawString(strScore1, xSVRRect1, ySVRRect1);
+			
+		    
+			int score = game.getScore();
+			
+			
+		    
+		    final int xRRect2 = (Tile.offsetCoors(game.getWidth()) + Tile.getSMargin()) / 2;
+		    final int yRRect2 = Tile.offsetCoors(game.getHeight());
+		    final int wRRect2 = (Tile.getSSize()*2 + Tile.getSMargin());
+		    final int hRRect2 = Tile.getSSize();
+		    
+		    
+		    g2d.setColor(Tile.getColor(0));
+		    g2d.fillRoundRect(xRRect2, yRRect2, wRRect2, hRRect2, 7, 7);
+		    
+		    g2d.setColor(new Color(0x776e65));
+		    
+		    final int RRect2Margin = Tile.getSMargin() / 4;
+		    
+		    
+		    String strHeader = "Score:";
+
+		    
+		    
+		    final int xSHRRect2 = xRRect2 + RRect2Margin;
+		    final int ySHRRect2 = yRRect2 + ((hRRect2 - 3*RRect2Margin)/ 2);
+		    final int wSHRRect2 = fm.stringWidth(strHeader);
+		    final int hSHRRect2 = -(int) fm.getLineMetrics(strHeader, g2d).getBaselineOffsets()[2];
+		    
+	    	g2d.drawString(strHeader, xSHRRect2, ySHRRect2);
+	    	
+		    String strScore = String.valueOf(score);
+	    	
+	    	final int xSVRRect2 = xRRect2 + RRect2Margin;
+		    final int ySVRRect2 = yRRect2 + hRRect2 - (3*RRect2Margin);
+		    
+		    g2d.drawString(strScore, xSVRRect2, ySVRRect2);
 		
 			
 			

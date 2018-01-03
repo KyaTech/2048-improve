@@ -6,7 +6,7 @@ public class Tile {
 	private static final int TILES_MARGIN = 16;
 
 	
-	private static int offsetCoors(int d) {
+	public static int offsetCoors(int d) {
 		return d * (TILES_MARGIN + TILE_SIZE) + TILES_MARGIN;
 	}
 	
@@ -104,6 +104,14 @@ public class Tile {
 	
 	public int getSize() {
 		return TILE_SIZE;
+	}
+	
+	public static int getSSize() {
+		return TILE_SIZE;
+	}
+	
+	public static int getSMargin() {
+		return TILES_MARGIN;
 	}
 	
 	public void setSize(int size) {
