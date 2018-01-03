@@ -23,18 +23,9 @@ public class Keyboard implements KeyListener{
 	
 	public static boolean isKeyDown(int keycode) {
 		
-		if (keycode >= 0 && keycode < keys.length) {
-			boolean value = keys[keycode];
-			keys[keycode] = false;
-			return value;
-			
-		}
+		if (keycode >= 0 && keycode < keys.length) return keys[keycode];
 		else return false;
 		
-	}
-	
-	public static void workedOn (int keycode) {
-		if (keycode >= 0 && keycode < keys.length)keys[keycode] = false;
 	}
 
 	@Override

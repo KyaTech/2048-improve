@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class Game {
@@ -15,12 +14,6 @@ public class Game {
 	
 	private int score = 0;
 	private int highscore = 0;
-	
-	private boolean console = false;
-	
-	private Random random;
-	
-	private boolean loose;
 	
 	public Game() {
 		
@@ -34,57 +27,17 @@ public class Game {
 			
 		}
 		
-		random = new Random();
+		getTile(2,3).setValue(2);
+		getTile(2,2).setValue(2);
 		
-		spawnNewTile(tiles);
-		spawnNewTile(tiles);
-		
-	}
-	
-	public void restartGame() {
-		
-		loose = false;
-		score = 0;
-		
-		for (Tile tile : tiles) {
-			tile.setValue(0);
-		}
-		
-		spawnNewTile(tiles);
-		spawnNewTile(tiles);
-		
-		
-	}
-	
-	public static int getHeight() {
-		return HEIGHT;
-	}
-	
-	public static int getWidth() {
-		return WIDTH;
 	}
 	
 	public void update() {
-		if (loose) return; 
 		
-		if (!canMove()) {
-			loose = true;
-			return;
-			
-		}
-		
-		if (Keyboard.isKeyDown(KeyEvent.VK_ESCAPE))
-			restartGame();
-		
-		if (Keyboard.isKeyDown(KeyEvent.VK_0)) {
-			console = !console;
-			if (console) System.out.println("Console activated.");
-		}
+		if (Keyboard.isKeyDown(KeyEvent.VK_UP) || Keyboard.isKeyDown(KeyEvent.VK_DOWN) || Keyboard.isKeyDown(KeyEvent.VK_RIGHT) || Keyboard.isKeyDown(KeyEvent.VK_LEFT))
+			tiles = move();
 		
 		
-		tiles = move();
-		
-
 		
 	}
 	
@@ -96,20 +49,11 @@ public class Game {
 		
 		int keycode = 0;
 		
-		if (Keyboard.isKeyDown(KeyEvent.VK_UP)) {
-			keycode = KeyEvent.VK_UP;
-		}
-		else if (Keyboard.isKeyDown(KeyEvent.VK_DOWN)) {
-			keycode = KeyEvent.VK_DOWN;
-		}
-		else if (Keyboard.isKeyDown(KeyEvent.VK_RIGHT)) {
-			keycode = KeyEvent.VK_RIGHT;
-		}
-		else if (Keyboard.isKeyDown(KeyEvent.VK_LEFT)) {
-			keycode = KeyEvent.VK_LEFT;
-		}
-			
-
+		if (Keyboard.isKeyDown(KeyEvent.VK_UP)) keycode = KeyEvent.VK_UP;
+		else if (Keyboard.isKeyDown(KeyEvent.VK_DOWN)) keycode = KeyEvent.VK_DOWN;
+		else if (Keyboard.isKeyDown(KeyEvent.VK_RIGHT)) keycode = KeyEvent.VK_RIGHT;
+		else if (Keyboard.isKeyDown(KeyEvent.VK_LEFT)) keycode = KeyEvent.VK_LEFT;
+				
 		
 		
 		switch (keycode) {	
@@ -184,22 +128,14 @@ public class Game {
 			
 			break;
 		default:
-			return this.tiles;
+			break;
 			
 	
 		}	
 		
 		
-		
-		if (isSame(newTiles, beforeTiles)) return newTiles;
-		
 		if (score > highscore) 
 			highscore = score;
-		
-		spawnNewTile(newTiles);
-		if (console) System.out.println("Yeah im here");
-		
-		if (console) System.out.println("--------------------------");
 		
 
 		return newTiles;
@@ -208,43 +144,13 @@ public class Game {
 		
 		
 	}
-	
-	private boolean isSame(List<Tile> firstList, List<Tile> secondList) {
-
-		
-		boolean isSame = true;
-		
-		if (firstList.size() == secondList.size()) {
-			
-			for (int i = 0; i < firstList.size(); i++) {
-				
-				Tile t1 = firstList.get(i);
-				Tile t2 = secondList.get(i);
-				
-				if (t1.getValue() != t2.getValue()) {
-					isSame = false;
-					return isSame;
-				}
-				
-			}
-			
-			
-			
-		} else {
-			
-			isSame = false;
-			
-		}
-		
-		return isSame;
-	}
 
 	private void printTiles(List<Tile> newTiles) {
 		for (int i = 0; i < newTiles.size(); i++) {
 			
 			Tile t = newTiles.get(i);
 			
-			if (console) System.out.format("Tile %d, x: %d y: %d, value: %d \n",i,t.getXGrid(),t.getYGrid(),t.getValue());
+			System.out.format("Tile %d, x: %d y: %d, value: %d \n",i,t.getXGrid(),t.getYGrid(),t.getValue());
 			
 		}
 	}
@@ -254,17 +160,16 @@ public class Game {
 		
 		List<Tile> newTiles = new ArrayList<Tile>();
 		
-		for (Tile tile : tilesToClone) {
-			newTiles.add(new Tile(tile.getXGrid(), tile.getYGrid(), tile.getValue()));
+		for (int i = 0; i < tilesToClone.size(); i++) {
+			
+			Tile t = tilesToClone.get(i);
+			
+			newTiles.add(t);
+			
+			
 		}
 		
 		return newTiles;
-		
-	}
-	
-	private boolean canMove() {
-		
-		return (getEmptySpace(tiles).size() > 0);
 		
 	}
 	
@@ -283,7 +188,7 @@ public class Game {
 					
 					score+= getTile(x, last, newTiles).getValue();
 					
-					if (console) System.out.format("%d/%d and %d/%d\n", x,last,x,y);
+					System.out.format("%d/%d and %d/%d\n", x,last,x,y);
 					
 					
 				} else {
@@ -298,9 +203,13 @@ public class Game {
 						getTile(x, last, newTiles).setValue(getTile(x, y, newTiles).getValue());
 						getTile(x, y, newTiles).setValue(0);
 	
-						if (console) System.out.format("%d/%d moved to %d/%d\n", x,y,x,last);
+						System.out.format("%d/%d moved to %d/%d\n", x,y,x,last);
 						
 					
+					} else {
+						
+						System.out.format("%d/%d and %d/%d same pos\n", x,y,x,last);
+						
 					}
 					
 
@@ -315,7 +224,7 @@ public class Game {
 					
 					score+= getTile(last, y, newTiles).getValue();
 					
-					if (console) System.out.format("%d/%d and %d/%d\n", x,last,x,y);
+					System.out.format("%d/%d and %d/%d\n", x,last,x,y);
 					
 					
 					
@@ -331,9 +240,13 @@ public class Game {
 						getTile(last, y, newTiles).setValue(getTile(x, y, newTiles).getValue());
 						getTile(x, y, newTiles).setValue(0);
 	
-						if (console) System.out.format("%d/%d moved to %d/%d\n", x,y,last,y);
+						System.out.format("%d/%d moved to %d/%d\n", x,y,last,y);
 						
 					
+					} else {
+						
+						System.out.format("%d/%d and %d/%d same pos\n", x,y,last,y);
+						
 					}
 					
 				}
@@ -343,32 +256,6 @@ public class Game {
 		}
 		
 		return last;
-	}
-	
-	private void spawnNewTile(List<Tile> newTiles) {
-		
-		List<Tile> emptyTiles = getEmptySpace(newTiles);
-		
-		Tile tile = emptyTiles.get(random.nextInt(emptyTiles.size()));
-		
-		int percentage = random.nextInt(10);
-		
-		
-		int value = percentage < 6 ? 2 : 4;
-		tile.setValue(value);
-			
-		if (console) System.out.format("New Tile Spawn at (%d/%d)\n",tile.getXGrid(), tile.getYGrid());
-		
-	
-	}
-
-	private List<Tile> getEmptySpace(List<Tile> newTiles) {
-		List<Tile> emptyTiles = new ArrayList<Tile>();
-		
-		for (Tile tile : newTiles) {
-			if (tile.isEmpty()) emptyTiles.add(tile);
-		}
-		return emptyTiles;
 	}
 	
 	public Tile getTile(int x, int y) {
@@ -383,18 +270,6 @@ public class Game {
 		if (x <WIDTH && y <HEIGHT) return tiles.get(y*4+x);
 		else return null;
 		
-	}
-	
-	public boolean isLost() {
-		return loose;
-	}
-	
-	public int getHighscore() {
-		return highscore;
-	}
-	
-	public int getScore() {
-		return score;
 	}
 			
 			

@@ -29,8 +29,6 @@ public class _2048_improve {
 			
 			game.update();
 			
-			//DRAW
-			
 			f.repaintFrame();
 			
 			try {
