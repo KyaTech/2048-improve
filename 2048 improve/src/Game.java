@@ -1,6 +1,4 @@
 
-import java.awt.HeadlessException;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +9,7 @@ public class Game {
 	
 	private static final int HEIGHT = 4;
 	private static final int WIDTH = 4;	
+	private static final int MAX_FPS = 60;
 	private List<Tile> tiles = new ArrayList<Tile>();
 	
 	private int score = 0;
@@ -56,6 +55,10 @@ public class Game {
 		
 	}
 	
+	public static int getMaxFps() {
+		return MAX_FPS;
+	}
+	
 	public static int getHeight() {
 		return HEIGHT;
 	}
@@ -64,14 +67,7 @@ public class Game {
 		return WIDTH;
 	}
 	
-	public void update() {
-		if (loose) return; 
-		
-		if (!canMove()) {
-			loose = true;
-			return;
-			
-		}
+	public void update(float timeSinceLastFrame) {
 		
 		if (Keyboard.isKeyDown(KeyEvent.VK_ESCAPE))
 			restartGame();
@@ -81,6 +77,13 @@ public class Game {
 			if (console) System.out.println("Console activated.");
 		}
 		
+		if (loose) return; 
+		
+		if (!canMove()) {
+			loose = true;
+			return;
+			
+		}
 		
 		tiles = move();
 		
@@ -239,15 +242,15 @@ public class Game {
 		return isSame;
 	}
 
-	private void printTiles(List<Tile> newTiles) {
-		for (int i = 0; i < newTiles.size(); i++) {
-			
-			Tile t = newTiles.get(i);
-			
-			if (console) System.out.format("Tile %d, x: %d y: %d, value: %d \n",i,t.getXGrid(),t.getYGrid(),t.getValue());
-			
-		}
-	}
+//	private void printTiles(List<Tile> newTiles) {
+//		for (int i = 0; i < newTiles.size(); i++) {
+//			
+//			Tile t = newTiles.get(i);
+//			
+//			if (console) System.out.format("Tile %d, x: %d y: %d, value: %d \n",i,t.getXGrid(),t.getYGrid(),t.getValue());
+//			
+//		}
+//	}
 	
 	
 	private List<Tile> clone(List<Tile> tilesToClone) {
@@ -264,7 +267,17 @@ public class Game {
 	
 	private boolean canMove() {
 		
-		return (getEmptySpace(tiles).size() > 0);
+		if (getEmptySpace(tiles).size() > 0)
+			return true;
+		
+		for (int x = 0; x < 4; x++) {
+		      for (int y = 0; y < 4; y++) {
+		        if ((x < 3 && getTile(x, y).getValue() == getTile(x+1, y).getValue()) || (y < 3 && getTile(x, y).getValue() == getTile(x, y+1).getValue())) {
+		          return true;
+		        }
+		      }
+		    }
+	    return false;
 		
 	}
 	

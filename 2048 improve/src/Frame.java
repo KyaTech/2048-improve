@@ -1,9 +1,12 @@
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -145,7 +148,25 @@ public class Frame extends JFrame {
 		    
 		    g2d.drawString(strScore, xSVRRect2, ySVRRect2);
 		
-			
+			if (game.isLost()) {
+				
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+				g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+				
+				
+				g2d.setColor(Color.WHITE);
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+				
+				String s = ("You have lost\n with a Score of\n " + game.getScore());
+				
+	            TextLayout textLayout = new TextLayout(s,new Font(FONT_NAME, Font.BOLD, 20), g2d.getFontRenderContext());
+	            Rectangle2D bounds = textLayout.getBounds();
+	            int x = (int)((getWidth() - bounds.getWidth())/2-bounds.getX());
+	            int y = (int)((getHeight() - bounds.getHeight())/2-bounds.getY());
+	            textLayout.draw(g2d, x, y);
+				
+				
+			}
 			
 			
 		}

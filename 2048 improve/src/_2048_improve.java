@@ -3,8 +3,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 public class _2048_improve {
-	
-	private static final int MAX_FPS = 60;
 
 	public static void main(String[] args) {
 		
@@ -27,16 +25,15 @@ public class _2048_improve {
 			
 			lastFrameMillis = currentFrameMillis;
 			
-			game.update();
+			game.update(timeSinceLastFrame);
 			
 			//DRAW
 			
 			f.repaintFrame();
 			
 			try {
-				Thread.sleep(1000/MAX_FPS);
+				Thread.sleep(1000/game.getMaxFps());
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
